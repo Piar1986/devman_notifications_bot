@@ -1,3 +1,5 @@
+print('Hello world!')
+'''
 import os
 import requests
 import telegram
@@ -57,3 +59,4 @@ if __name__ == '__main__':
             if connection_error_count == 3:
                 sleep(60)
                 connection_error_count = 0
+'''
