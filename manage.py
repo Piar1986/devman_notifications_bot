@@ -1,5 +1,3 @@
-print('Hello world!')
-'''
 import os
 import requests
 import telegram
@@ -27,6 +25,8 @@ if __name__ == '__main__':
     url_template = 'https://dvmn.org/api/long_polling/'
     headers = {"Authorization": authorization_token}
     
+    print('Hello world!')
+
     while True:
         try:
             response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
@@ -59,4 +59,3 @@ if __name__ == '__main__':
             if connection_error_count == 3:
                 sleep(60)
                 connection_error_count = 0
-'''
