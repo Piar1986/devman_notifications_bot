@@ -6,12 +6,12 @@ from time import sleep
 
 
 if __name__ == '__main__':
-#    load_dotenv()
+    #load_dotenv()
     chat_id="204897991"
     #authorization_token = os.getenv("AUTHORIZATION_TOKEN")
     #bot_token = os.getenv("BOT_TOKEN")
-    authorization_token = os.environ("AUTHORIZATION_TOKEN")
-    bot_token = os.environ("BOT_TOKEN")
+    authorization_token = os.environ["AUTHORIZATION_TOKEN"]
+    bot_token = os.environ["BOT_TOKEN"]
     bot = telegram.Bot(token = bot_token)    
     connection_error_count = 0
     timestamp = ''
