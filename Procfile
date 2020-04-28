@@ -1,2 +1,2 @@
-bot: python3 manage.py
-ps: scale web=1
+bot: python manage.py
+web: python manage.py runserver
