@@ -34,7 +34,7 @@ if __name__ == '__main__':
     logger.addHandler(MyLogsHandler())
 
     logger.info("Я новый логер!")
-    logging.warning('Бот запущен')    
+    logger.warning('Бот запущен')    
 
     while True:
         try:
