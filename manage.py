@@ -1,3 +1,4 @@
+import logging
 import os
 import requests
 import telegram
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     url_template = 'https://dvmn.org/api/long_polling/'
     headers = {"Authorization": authorization_token}
     
-    print('Hello world!')
+    logging.warning('Предупреждение, что-то могло сломаться')
 
     while True:
         try:
