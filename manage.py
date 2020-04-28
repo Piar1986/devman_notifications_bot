@@ -32,7 +32,7 @@ if __name__ == '__main__':
     logger = logging.getLogger("notifications_bot")
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
-    logger.warning('Бот запущен')    
+    logger.warning('Бот запущен')
     
     while True:
         try:
@@ -70,4 +70,5 @@ if __name__ == '__main__':
                         sleep(60)
                         connection_error_count = 0
         except Exception as err:
+            logger.warning('Бот упал с ошибкой:')
             logger.error(err, exc_info=True)
