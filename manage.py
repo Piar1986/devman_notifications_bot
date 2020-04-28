@@ -32,10 +32,10 @@ if __name__ == '__main__':
     logger = logging.getLogger("notifications_bot")
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
-
-    logger.info("Я новый логер!")
     logger.warning('Бот запущен')    
-
+    
+    try:
+        0/0
     while True:
         try:
             response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
@@ -68,3 +68,5 @@ if __name__ == '__main__':
             if connection_error_count == 3:
                 sleep(60)
                 connection_error_count = 0
+    except Exception as err:
+        logger.error(err, exc_info=True)
