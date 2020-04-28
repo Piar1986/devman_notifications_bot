@@ -3,14 +3,16 @@ import os
 import requests
 import telegram
 from time import sleep
-#from dotenv import load_dotenv
 
+
+class MyLogsHandler(logging.Handler):
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        bot.send_message(chat_id = chat_id, text = log_entry)
 
 if __name__ == '__main__':
-    #load_dotenv()
     chat_id="204897991"
-    #authorization_token = os.getenv("AUTHORIZATION_TOKEN")
-    #bot_token = os.getenv("BOT_TOKEN")
     authorization_token = os.environ["AUTHORIZATION_TOKEN"]
     bot_token = os.environ["BOT_TOKEN"]
     bot = telegram.Bot(token = bot_token)    
@@ -26,7 +28,13 @@ if __name__ == '__main__':
     url_template = 'https://dvmn.org/api/long_polling/'
     headers = {"Authorization": authorization_token}
     
-    logging.warning('Предупреждение, что-то могло сломаться')
+
+    logger = logging.getLogger("notifications_bot")
+    logger.setLevel(logging.INFO)
+    logger.addHandler(MyLogsHandler())
+
+    logger.info("Я новый логер!")
+    logging.warning('Бот запущен')    
 
     while True:
         try:
