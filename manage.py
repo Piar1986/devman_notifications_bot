@@ -36,7 +36,6 @@ if __name__ == '__main__':
     
     while True:
         try:
-            0/0
             while True:
                 try:
                     response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
