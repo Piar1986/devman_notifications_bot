@@ -1,2 +1,2 @@
-ps: scale --app piar1986
+ps: scale web = 1
 bot: python3 manage.py
