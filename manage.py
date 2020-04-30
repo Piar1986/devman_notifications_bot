@@ -57,7 +57,7 @@ if __name__ == '__main__':
                     if json_data['status']=="found":
                         lesson_data = json_data['new_attempts'][0]
                         lesson_title = lesson_data['lesson_title']
-                        lesson_url = "https://dvmn.org" + lesson_data['lesson_url']
+                        lesson_url = f"https://dvmn.org{lesson_data['lesson_url']}"
                         lesson_result = lesson_data['is_negative']
                       
                         if lesson_result:
