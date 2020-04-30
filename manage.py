@@ -6,11 +6,23 @@ from time import sleep
 from dotenv import load_dotenv
 
 
+logger = logging.getLogger("notifications_bot")
+
 class MyLogsHandler(logging.Handler):
 
     def emit(self, record):
         log_entry = self.format(record)
         bot.send_message(chat_id = chat_id, text = log_entry)
+
+
+def send_bot_start_message():
+    logger.warning('Бот запущен')
+
+
+def send_bot_error_message():
+    logger.warning('Бот упал с ошибкой:')
+    logger.error(err, exc_info=True)
+
 
 if __name__ == '__main__':
     load_dotenv()
@@ -30,11 +42,9 @@ if __name__ == '__main__':
     url_template = 'https://dvmn.org/api/long_polling/'
     headers = {"Authorization": authorization_token}
     
-
-    logger = logging.getLogger("notifications_bot")
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
-    logger.warning('Бот запущен')
+    send_bot_start_message()
     
     while True:
         try:
@@ -71,5 +81,4 @@ if __name__ == '__main__':
                         sleep(60)
                         connection_error_count = 0
         except Exception as err:
-            logger.warning('Бот упал с ошибкой:')
-            logger.error(err, exc_info=True)
+            send_bot_error_message()
