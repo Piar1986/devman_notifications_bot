@@ -3,6 +3,7 @@ import os
 import requests
 import telegram
 from time import sleep
+from dotenv import load_dotenv
 
 
 class MyLogsHandler(logging.Handler):
@@ -12,9 +13,10 @@ class MyLogsHandler(logging.Handler):
         bot.send_message(chat_id = chat_id, text = log_entry)
 
 if __name__ == '__main__':
-    authorization_token = os.environ["TELEGRAM_AUTHORIZATION_TOKEN"]
-    bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
-    chat_id = os.environ["TELEGRAM_CHAT_ID"]
+    load_dotenv()
+    authorization_token = os.environ['TELEGRAM_AUTHORIZATION_TOKEN']
+    bot_token = os.environ['TELEGRAM_BOT_TOKEN']
+    chat_id = os.environ['TELEGRAM_CHAT_ID']
     bot = telegram.Bot(token = bot_token)    
     connection_error_count = 0
     timestamp = ''

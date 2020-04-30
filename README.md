@@ -26,6 +26,16 @@
 
 Для запуска бота нажмите кнопку `Open app` в верхнем правом углу сайта [Heroku](https://id.heroku.com/login).
 
+
+### Пример запуска скрипта
+
+Команда запуска: `python manage.py`
+
+Пример результата:
+
+![](https://github.com/Piar1986/devman_notifications_bot/raw/master/result_example.png)
+
+
 ### Цель проекта
 
 Код написан в образовательных целях на онлайн-курсе для веб-разработчиков [dvmn.org](https://dvmn.org/).
