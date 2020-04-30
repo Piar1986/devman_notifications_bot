@@ -52,13 +52,14 @@ if __name__ == '__main__':
                 try:
                     response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
                     response.raise_for_status()
-                    json_data = response.json()
-                
-                    if json_data['status']=="found":
-                        lesson_data = json_data['new_attempts'][0]
-                        lesson_title = lesson_data['lesson_title']
-                        lesson_url = f"https://dvmn.org{lesson_data['lesson_url']}"
-                        lesson_result = lesson_data['is_negative']
+                    response_result = response.json()
+                    lesson_status = response_result['status']
+                    
+                    if lesson_status=="found":
+                        lesson_information = response_result['new_attempts'][0]
+                        lesson_title = lesson_information['lesson_title']
+                        lesson_url = f"https://dvmn.org{lesson_information['lesson_url']}"
+                        lesson_result = lesson_information['is_negative']
                       
                         if lesson_result:
                             lesson_comment = "К сожалению, в работе нашлись ошибки."
@@ -67,10 +68,10 @@ if __name__ == '__main__':
                 
                         message_text = text.format(lesson_title, lesson_comment, lesson_url)
                         bot.send_message(chat_id = chat_id, text = message_text)
-                        timestamp = json_data['last_attempt_timestamp']
+                        timestamp = response_result['last_attempt_timestamp']
                 
-                    elif json_data['status']=="timeout":
-                      timestamp = json_data['timestamp_to_request']
+                    elif lesson_status=="timeout":
+                      timestamp = response_result['timestamp_to_request']
                 
                 except requests.exceptions.ReadTimeout:
                     pass
