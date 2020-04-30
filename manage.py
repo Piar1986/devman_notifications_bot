@@ -13,8 +13,8 @@ class MyLogsHandler(logging.Handler):
 
 if __name__ == '__main__':
     chat_id="204897991"
-    authorization_token = os.environ["AUTHORIZATION_TOKEN"]
-    bot_token = os.environ["BOT_TOKEN"]
+    authorization_token = os.environ["TELEGRAM_AUTHORIZATION_TOKEN"]
+    bot_token = os.environ["TELEGRAM_BOT_TOKEN"]
     bot = telegram.Bot(token = bot_token)    
     connection_error_count = 0
     timestamp = ''

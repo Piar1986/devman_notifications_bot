@@ -10,8 +10,8 @@
 3. Привяжите Ваш аккаунт [GitHub](https://github.com/) к аккаунту [Heroku](https://id.heroku.com/login). Привязать можно на вкладке `Deploy`. Потом найти свой репозиторий с помощью поиска и подключите его к `Heroku`. Нажать `Deploy Branch` внизу страницы, в итоге загорятся зелёные галочки справа.
 
 4. Для работы бота потребуются следующие переменные:
-   - `BOT_TOKEN` — `API` ключ бота.
-   - `AUTHORIZATION_TOKEN` — токен авторизации.
+   - `TELEGRAM_BOT_TOKEN` — `API` ключ бота.
+   - `TELEGRAM_AUTHORIZATION_TOKEN` — токен авторизации.
    
    Зарегистрируйте бота в `Telegram`. Для этого напишите [Отцу ботов](https://telegram.me/BotFather). Используйте команды: `/start` и `/newbot`.
    `API` ключ бота и токен авторизации задайте во вкладке `Settings` на сайте [Heroku](https://id.heroku.com/login). Заполните `Config Vars`.
