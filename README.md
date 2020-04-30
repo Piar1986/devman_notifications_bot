@@ -10,17 +10,15 @@
 3. Привяжите Ваш аккаунт [GitHub](https://github.com/) к аккаунту [Heroku](https://id.heroku.com/login). Привязать можно на вкладке `Deploy`. Потом найти свой репозиторий с помощью поиска и подключите его к `Heroku`. Нажать `Deploy Branch` внизу страницы, в итоге загорятся зелёные галочки справа.
 
 4. Для работы бота потребуются следующие переменные:
-   - `TELEGRAM_BOT_TOKEN` — `API` ключ бота.
-   - `TELEGRAM_AUTHORIZATION_TOKEN` — токен авторизации.
+   - `TELEGRAM_BOT_TOKEN` — `API` ключ бота;
+   - `TELEGRAM_AUTHORIZATION_TOKEN` — токен авторизации;
+   - `TELEGRAM_CHAT_ID` — `id` номер Вашего `Telegram` аккаунта.
    
    Зарегистрируйте бота в `Telegram`. Для этого напишите [Отцу ботов](https://telegram.me/BotFather). Используйте команды: `/start` и `/newbot`.
-   `API` ключ бота и токен авторизации задайте во вкладке `Settings` на сайте [Heroku](https://id.heroku.com/login). Заполните `Config Vars`.
+   Чтобы получить свой `id` номер `Telegram` аккаунта, напишите в Telegram специальному боту: `@userinfobot`.
+   Переменные окружения задайте во вкладке `Settings` на сайте [Heroku](https://id.heroku.com/login), заполнив `Config Vars`.
 
-5. В файле `manage.py` исправьте `chat_id="204897991"` на Ваш.
-
-   Чтобы получить свой `chat_id`, напишите в Telegram специальному боту: `@userinfobot`
-
-6. Python3 должен быть уже установлен. 
+5. Python3 должен быть уже установлен. 
    Затем используйте `pip` (или `pip3`, если есть конфликт с Python2) для установки зависимостей:
    ```
    pip install -r requirements.txt
