@@ -3,6 +3,7 @@ import os
 import requests
 import telegram
 from time import sleep
+from dotenv import load_dotenv
 
 
 logger = logging.getLogger("notifications_bot")
@@ -80,6 +81,7 @@ def process_response_result(response_result):
 
 
 if __name__ == '__main__':
+    load_dotenv()
     authorization_token = os.environ['TELEGRAM_AUTHORIZATION_TOKEN']
     bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
