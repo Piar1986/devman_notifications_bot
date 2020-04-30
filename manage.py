@@ -24,6 +24,62 @@ def send_bot_error_message():
     logger.error(err, exc_info=True)
 
 
+def send_bot_notification_message(message_text):
+    bot.send_message(chat_id = chat_id, text = message_text)
+
+
+def get_lesson_information(response_result):
+    lesson_information = response_result['new_attempts'][0]
+    lesson_title = lesson_information['lesson_title']
+    lesson_url = f"https://dvmn.org{lesson_information['lesson_url']}"
+    lesson_result = lesson_information['is_negative']
+                      
+    if lesson_result:
+        lesson_comment = "К сожалению, в работе нашлись ошибки."
+    else:
+        lesson_comment = "Преподавателю все понравилось, можно приступать к следующему уроку!"
+
+    return lesson_title, lesson_comment, lesson_url
+
+
+def get_message_text(lesson_title, lesson_comment, lesson_url):
+    text = """
+    У Вас проверили работу «{}»
+    
+    {}
+    
+    {}
+    """
+    message_text = text.format(lesson_title, lesson_comment, lesson_url)
+    return message_text
+
+
+def get_response_result(timestamp):
+    url_template = 'https://dvmn.org/api/long_polling/'
+    headers = {"Authorization": authorization_token}
+    response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
+    response.raise_for_status()
+    response_result = response.json()
+    return response_result
+
+
+def process_response_result(response_result):
+    response_status = response_result['status']
+    if response_status=="found":
+        lesson_title, lesson_comment, lesson_url = get_lesson_information(response_result)
+        message_text = get_message_text(
+            lesson_title, 
+            lesson_comment, 
+            lesson_url
+            )
+        send_bot_notification_message(message_text)
+        timestamp = response_result['last_attempt_timestamp']
+                
+    elif response_status=="timeout":
+        timestamp = response_result['timestamp_to_request']
+    return timestamp
+
+
 if __name__ == '__main__':
     load_dotenv()
     authorization_token = os.environ['TELEGRAM_AUTHORIZATION_TOKEN']
@@ -32,16 +88,7 @@ if __name__ == '__main__':
     bot = telegram.Bot(token = bot_token)    
     connection_error_count = 0
     timestamp = ''
-    text = """
-    У Вас проверили работу «{}»
-    
-    {}
-    
-    {}
-    """
-    url_template = 'https://dvmn.org/api/long_polling/'
-    headers = {"Authorization": authorization_token}
-    
+
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
     send_bot_start_message()
@@ -50,28 +97,8 @@ if __name__ == '__main__':
         try:
             while True:
                 try:
-                    response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
-                    response.raise_for_status()
-                    response_result = response.json()
-                    lesson_status = response_result['status']
-                    
-                    if lesson_status=="found":
-                        lesson_information = response_result['new_attempts'][0]
-                        lesson_title = lesson_information['lesson_title']
-                        lesson_url = f"https://dvmn.org{lesson_information['lesson_url']}"
-                        lesson_result = lesson_information['is_negative']
-                      
-                        if lesson_result:
-                            lesson_comment = "К сожалению, в работе нашлись ошибки."
-                        else:
-                            lesson_comment = "Преподавателю все понравилось, можно приступать к следующему уроку!"
-                
-                        message_text = text.format(lesson_title, lesson_comment, lesson_url)
-                        bot.send_message(chat_id = chat_id, text = message_text)
-                        timestamp = response_result['last_attempt_timestamp']
-                
-                    elif lesson_status=="timeout":
-                      timestamp = response_result['timestamp_to_request']
+                    response_result = get_response_result(timestamp)
+                    process_response_result(response_result)
                 
                 except requests.exceptions.ReadTimeout:
                     pass
