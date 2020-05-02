@@ -2,6 +2,7 @@ import logging
 import os
 import requests
 import telegram
+from textwrap import dedent
 from time import sleep
 from dotenv import load_dotenv
 
@@ -50,7 +51,7 @@ def get_message_text(lesson_title, lesson_comment, lesson_url):
     
     {}
     """
-    message_text = text.format(lesson_title, lesson_comment, lesson_url)
+    message_text = dedent(text.format(lesson_title, lesson_comment, lesson_url))
     return message_text
 
 
