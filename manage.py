@@ -9,12 +9,6 @@ from dotenv import load_dotenv
 
 logger = logging.getLogger("notifications_bot")
 
-class MyLogsHandler(logging.Handler):
-
-    def emit(self, record):
-        log_entry = self.format(record)
-        bot.send_message(chat_id = telegram_chat_id, text = log_entry)
-
 
 def send_bot_start_message():
     logger.warning('Бот запущен')
@@ -25,8 +19,8 @@ def send_bot_error_message():
     logger.error(err, exc_info=True)
 
 
-def send_bot_notification_message(message_text):
-    bot.send_message(chat_id = telegram_chat_id, text = message_text)
+def send_bot_notification_message(chat_id, message_text):
+    bot.send_message(chat_id = chat_id, text = message_text)
 
 
 def get_lesson_information(response_result):
@@ -55,9 +49,9 @@ def get_message_text(lesson_title, lesson_comment, lesson_url):
     return message_text
 
 
-def get_response_result(timestamp):
+def get_response_result(timestamp, authorization_header):
     url_template = 'https://dvmn.org/api/long_polling/'
-    headers = {"Authorization": devman_authorization_header}
+    headers = {"Authorization": authorization_header}
     response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
     response.raise_for_status()
     response_result = response.json()
@@ -73,7 +67,7 @@ def process_response_result(response_result):
             lesson_comment, 
             lesson_url
             )
-        send_bot_notification_message(message_text)
+        send_bot_notification_message(telegram_chat_id, message_text)
         timestamp = response_result['last_attempt_timestamp']
                 
     elif response_status=="timeout":
@@ -86,7 +80,14 @@ if __name__ == '__main__':
     devman_authorization_header = f"Token {os.environ['DEVMAN_AUTHORIZATION_TOKEN']}"
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
-    bot = telegram.Bot(token = telegram_bot_token)    
+
+    class MyLogsHandler(logging.Handler):
+
+        def emit(self, record):
+            log_entry = self.format(record)
+            bot.send_message(chat_id = telegram_chat_id, text = log_entry)
+
+    bot = telegram.Bot(token = telegram_bot_token)
     connection_error_count = 0
     timestamp = ''
 
@@ -96,7 +97,7 @@ if __name__ == '__main__':
 
     while True:
         try:
-            response_result = get_response_result(timestamp)
+            response_result = get_response_result(timestamp, devman_authorization_header)
             timestamp = process_response_result(response_result)
                 
         except requests.exceptions.ReadTimeout:
