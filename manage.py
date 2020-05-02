@@ -92,12 +92,11 @@ if __name__ == '__main__':
     logger.setLevel(logging.INFO)
     logger.addHandler(MyLogsHandler())
     send_bot_start_message()
-    
 
     while True:
         try:
             response_result = get_response_result(timestamp)
-            process_response_result(response_result)
+            timestamp = process_response_result(response_result)
                 
         except requests.exceptions.ReadTimeout:
             pass
