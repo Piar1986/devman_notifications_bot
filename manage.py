@@ -29,10 +29,10 @@ def send_bot_notification_message(message_text):
 
 
 def get_lesson_information(response_result):
-    lesson_information = response_result['new_attempts'][0]
-    lesson_title = lesson_information['lesson_title']
-    lesson_url = f"https://dvmn.org{lesson_information['lesson_url']}"
-    lesson_result = lesson_information['is_negative']
+    lesson = response_result['new_attempts'][0]
+    lesson_title = lesson['lesson_title']
+    lesson_url = f"https://dvmn.org{lesson['lesson_url']}"
+    lesson_result = lesson['is_negative']
                       
     if lesson_result:
         lesson_comment = "К сожалению, в работе нашлись ошибки."
