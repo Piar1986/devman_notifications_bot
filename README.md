@@ -11,11 +11,12 @@
 
 4. Для работы бота потребуются следующие переменные:
    - `TELEGRAM_BOT_TOKEN` — `API` ключ бота;
-   - `TELEGRAM_AUTHORIZATION_TOKEN` — токен авторизации;
-   - `TELEGRAM_CHAT_ID` — `id` номер Вашего `Telegram` аккаунта.
+   - `TELEGRAM_CHAT_ID` — `id` номер Вашего `Telegram` аккаунта;
+   - `DEVMAN_AUTHORIZATION_TOKEN` — токен авторизации к сайту [Devman](https://dvmn.org/).
    
    Зарегистрируйте бота в `Telegram`. Для этого напишите [Отцу ботов](https://telegram.me/BotFather). Используйте команды: `/start` и `/newbot`.
    Чтобы получить свой `id` номер `Telegram` аккаунта, напишите в Telegram специальному боту: `@userinfobot`.
+   Токен авторизации к сайту [Devman](https://dvmn.org/) находится в документации к [API Devman](https://dvmn.org/api/docs/).
    Переменные окружения задайте во вкладке `Settings` на сайте [Heroku](https://id.heroku.com/login), заполнив `Config Vars`.
 
 5. Python3 должен быть уже установлен. 

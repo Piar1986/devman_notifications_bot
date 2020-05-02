@@ -12,7 +12,7 @@ class MyLogsHandler(logging.Handler):
 
     def emit(self, record):
         log_entry = self.format(record)
-        bot.send_message(chat_id = chat_id, text = log_entry)
+        bot.send_message(chat_id = telegram_chat_id, text = log_entry)
 
 
 def send_bot_start_message():
@@ -25,7 +25,7 @@ def send_bot_error_message():
 
 
 def send_bot_notification_message(message_text):
-    bot.send_message(chat_id = chat_id, text = message_text)
+    bot.send_message(chat_id = telegram_chat_id, text = message_text)
 
 
 def get_lesson_information(response_result):
@@ -56,7 +56,7 @@ def get_message_text(lesson_title, lesson_comment, lesson_url):
 
 def get_response_result(timestamp):
     url_template = 'https://dvmn.org/api/long_polling/'
-    headers = {"Authorization": authorization_token}
+    headers = {"Authorization": devman_authorization_header}
     response = requests.get(url_template, headers=headers, timeout=91, params = {'timestamp': timestamp})
     response.raise_for_status()
     response_result = response.json()
@@ -82,10 +82,10 @@ def process_response_result(response_result):
 
 if __name__ == '__main__':
     load_dotenv()
-    authorization_token = os.environ['TELEGRAM_AUTHORIZATION_TOKEN']
-    bot_token = os.environ['TELEGRAM_BOT_TOKEN']
-    chat_id = os.environ['TELEGRAM_CHAT_ID']
-    bot = telegram.Bot(token = bot_token)    
+    devman_authorization_header = f"Token {os.environ['DEVMAN_AUTHORIZATION_TOKEN']}"
+    telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
+    telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
+    bot = telegram.Bot(token = telegram_bot_token)    
     connection_error_count = 0
     timestamp = ''
 
