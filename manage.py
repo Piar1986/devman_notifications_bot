@@ -81,11 +81,13 @@ if __name__ == '__main__':
     telegram_bot_token = os.environ['TELEGRAM_BOT_TOKEN']
     telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
 
+
     class MyLogsHandler(logging.Handler):
 
         def emit(self, record):
             log_entry = self.format(record)
             bot.send_message(chat_id = telegram_chat_id, text = log_entry)
+
 
     bot = telegram.Bot(token = telegram_bot_token)
     connection_error_count = 0
