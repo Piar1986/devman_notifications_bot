@@ -93,20 +93,20 @@ if __name__ == '__main__':
     logger.addHandler(MyLogsHandler())
     send_bot_start_message()
     
+
     while True:
         try:
-            while True:
-                try:
-                    response_result = get_response_result(timestamp)
-                    process_response_result(response_result)
+            response_result = get_response_result(timestamp)
+            process_response_result(response_result)
                 
-                except requests.exceptions.ReadTimeout:
-                    pass
+        except requests.exceptions.ReadTimeout:
+            pass
                 
-                except requests.ConnectionError:
-                    connection_error_count += 1
-                    if connection_error_count == 3:
-                        sleep(60)
-                        connection_error_count = 0
+        except requests.ConnectionError:
+            connection_error_count += 1
+            if connection_error_count == 3:
+                sleep(60)
+                connection_error_count = 0
+
         except Exception as err:
             send_bot_error_message()
